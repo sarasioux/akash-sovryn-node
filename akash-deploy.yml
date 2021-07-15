@@ -1,0 +1,41 @@
+---
+version: "2.0"
+
+services:
+  web:
+    image: sarasioux/sovryn-node:latest
+    environment:
+      - WHICHNET=test
+      - KEYPW=akasha
+      - LIQUIDATOR_ADDRESS="0x8083EBD622F71d8348Ea04727A81492ac6E4975c"
+      - LIQUIDATOR_PRIVATE_KEY="..."
+      - ROLLOVER_ADDRESS="0x875b1ce18F33be6f9D3DD95b957Db9bA642e8Dd4"
+      - ROLLOVER_PRIVATE_KEY="..."
+      - ARBITRAGE_ADDRESS="0x259Cb5Bb4e05EC8ad22397665BCe5A93cA4d2776"
+      - ARBITRAGE_PRIVATE_KEY="..."
+      - TELEGRAM_BOT_KEY=
+    expose:
+      - port: 3000
+      - as: 80
+      - to:
+        - global: true
+
+  profiles:
+    compute:
+      web:
+        resources:
+          cpu:
+            units: 0.5
+          memory:
+            size: 512Mi
+          storage:
+            size: 512Mi
+    placement:
+      westcoast:
+        pricing:
+          web:
+            denom: uakt
+            amount: 5000
+
+  deployment:
+    web:
